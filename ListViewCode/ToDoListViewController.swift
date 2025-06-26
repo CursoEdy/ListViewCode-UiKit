@@ -10,7 +10,16 @@ import UIKit
 class ToDoListViewController: UIViewController {
     
     private let tableView = UITableView()
-    private let addButton = UIButton(type: .system)
+    
+    private let addButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("Adicionar Tarefa", for: .normal)
+        btn.setTitleColor(.white, for: .normal)
+        btn.backgroundColor = .systemBlue
+        btn.layer.cornerRadius = 10
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
     
     private var tasks: [String] = [] {
         didSet{
@@ -21,9 +30,11 @@ class ToDoListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        setupAddButton()
+        loadTasks()
     }
     
-    func setupTableView() {
+    private func setupTableView() {
         view.backgroundColor = .white
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -36,6 +47,23 @@ class ToDoListViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func setupAddButton() {
+        view.addSubview(addButton)
+        addButton.addTarget(self, action: #selector(addTaskTapped), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            addButton.heightAnchor.constraint(equalToConstant: 50),
+            addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+        ])
+        
+    }
+    
+    @objc func addTaskTapped() {
+        print("Add nova task")
     }
     
     private func saveTasks() {
