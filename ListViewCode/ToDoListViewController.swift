@@ -14,7 +14,7 @@ class ToDoListViewController: UIViewController {
     
     private var tasks: [String] = [] {
         didSet{
-            //criar save tasks
+            saveTasks()
         }
     }
     
@@ -26,6 +26,14 @@ class ToDoListViewController: UIViewController {
     
     func setupView() {
         view.backgroundColor = .white
+    }
+    
+    private func saveTasks() {
+        UserDefaults.standard.set(tasks, forKey: "tasks")
+    }
+    
+    private func loadTasks() {
+        tasks = UserDefaults.standard.stringArray(forKey: "tasks") ?? []
     }
     
 }
